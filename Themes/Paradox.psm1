@@ -25,7 +25,9 @@ function Write-Theme {
     $computer = [System.Environment]::MachineName
     $path = Get-FullPath -dir $pwd
     if (Test-NotDefaultUser($user)) {
-        $prompt += Write-Prompt -Object "$user@$computer " -ForegroundColor $sl.Colors.SessionInfoForegroundColor -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
+        $prompt += Write-Prompt -Object "$user" -ForegroundColor $sl.Colors.SessionInfoForegroundColor -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
+        $prompt += Write-Prompt -Object "@" -ForegroundColor $sl.Colors.SessionInfoForegroundColor2 -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
+        $prompt += Write-Prompt -Object "$computer " -ForegroundColor $sl.Colors.SessionInfoForegroundColor3 -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
     }
 
     if (Test-VirtualEnv) {
@@ -51,13 +53,13 @@ function Write-Theme {
     # Writes the postfix to the prompt
     $prompt += Write-Prompt -Object $sl.PromptSymbols.SegmentForwardSymbol -ForegroundColor $lastColor
 
-    $timeStamp = Get-Date -UFormat %r
-    $timestamp = "[$timeStamp]"
+    #$timeStamp = Get-Date -UFormat %r
+    #$timestamp = "[$timeStamp]"
 
-    $prompt += Set-CursorForRightBlockWrite -textLength ($timestamp.Length + 1)
-    $prompt += Write-Prompt $timeStamp -ForegroundColor $sl.Colors.PromptForegroundColor
+    #$prompt += Set-CursorForRightBlockWrite -textLength ($timestamp.Length + 1)
+    #$prompt += Write-Prompt $timeStamp -ForegroundColor $sl.Colors.PromptForegroundColor
 
-    $prompt += Set-Newline
+    #$prompt += Set-Newline
 
     if ($with) {
         $prompt += Write-Prompt -Object "$($with.ToUpper()) " -BackgroundColor $sl.Colors.WithBackgroundColor -ForegroundColor $sl.Colors.WithForegroundColor
@@ -71,7 +73,7 @@ $sl = $global:ThemeSettings #local settings
 $sl.PromptSymbols.StartSymbol = ''
 $sl.PromptSymbols.PromptIndicator = '>'
 $sl.PromptSymbols.SegmentForwardSymbol = [char]::ConvertFromUtf32(0xE0B0)
-$sl.Colors.PromptForegroundColor = [ConsoleColor]::White
+$sl.Colors.PromptForegroundColor = [ConsoleColor]::Yellow
 $sl.Colors.PromptSymbolColor = [ConsoleColor]::White
 $sl.Colors.PromptHighlightColor = [ConsoleColor]::DarkBlue
 $sl.Colors.GitForegroundColor = [ConsoleColor]::Black
@@ -79,3 +81,7 @@ $sl.Colors.WithForegroundColor = [ConsoleColor]::DarkRed
 $sl.Colors.WithBackgroundColor = [ConsoleColor]::Magenta
 $sl.Colors.VirtualEnvBackgroundColor = [System.ConsoleColor]::Red
 $sl.Colors.VirtualEnvForegroundColor = [System.ConsoleColor]::White
+$sl.Colors.PromptBackgroundColor = [System.ConsoleColor]::DarkCyan
+$sl.Colors.SessionInfoForegroundColor = [System.ConsoleColor]::Red
+$sl.Colors.SessionInfoForegroundColor2 = [System.ConsoleColor]::Yellow
+$sl.Colors.SessionInfoForegroundColor3 = [System.ConsoleColor]::DarkMagenta
